@@ -4,42 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firebase Példa</title>
-    <!-- Firebase SDK hozzáadása -->
     <script type="module">
-        // Firebase konfiguráció (a saját projektedből)
+        // Firebase konfiguráció
         const firebaseConfig = {
             apiKey: "AIzaSyBXxbFR3nwUFni-dBOB4dg7i3C-Z0SNgcw",
-              authDomain: "csokibetwpf.firebaseapp.com",
-              databaseURL: "https://csokibetwpf-default-rtdb.firebaseio.com",
-              projectId: "csokibetwpf",
-              storageBucket: "csokibetwpf.appspot.com",
-              messagingSenderId: "514397772782",
-              appId: "1:514397772782:web:b54efbb2b690e466cb8cff",
-              measurementId: "G-JN7VKHTJ6V"
+            authDomain: "csokibetwpf.firebaseapp.com",
+            databaseURL: "https://csokibetwpf-default-rtdb.firebaseio.com",
+            projectId: "csokibetwpf",
+            storageBucket: "csokibetwpf.appspot.com",
+            messagingSenderId: "514397772782",
+            appId: "1:514397772782:web:b54efbb2b690e466cb8cff",
+            measurementId: "G-JN7VKHTJ6V"
         };
 
-        // Firebase inicializálása
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Query string lekérése
         const params = new URLSearchParams(window.location.search);
         const emailParam = params.get('email');
 
-        if (emailParam) {
-            // Az email cím módosítása, hogy kompatibilis legyen a Firebase kulcsnévvel (pl. pont helyett _)
-            const emailKey = emailParam.replace(/\./g, "_");
+        console.log("Email paraméter:", emailParam); // Ellenőrzés
 
-            // Firebase referencia az adott felhasználóhoz
+        if (emailParam) {
+            const emailKey = emailParam.replace(/\./g, "_");
             const userRef = ref(database, 'users/' + emailKey);
 
-            // Ellenőrzés, hogy létezik-e a felhasználó
             get(userRef).then((snapshot) => {
                 if (snapshot.exists()) {
-                    // isActive módosítása true-ra
                     update(userRef, { isActive: true }).then(() => {
                         document.getElementById('output').textContent = `Az ${emailParam} felhasználó isActive mezője true-ra módosítva.`;
                     }).catch((error) => {
