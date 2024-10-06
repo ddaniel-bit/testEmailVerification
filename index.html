@@ -4,8 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firebase Példa</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* Világos háttér */
+        }
+
+        #output {
+            background-color: #4caf50; /* Zöld háttér */
+            color: white; /* Fehér szöveg */
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Árnyék */
+        }
+    </style>
     <script type="module">
-        // Firebase konfiguráció
         const firebaseConfig = {
             apiKey: "AIzaSyBXxbFR3nwUFni-dBOB4dg7i3C-Z0SNgcw",
             authDomain: "csokibetwpf.firebaseapp.com",
@@ -35,7 +54,7 @@
             get(userRef).then((snapshot) => {
                 if (snapshot.exists()) {
                     update(userRef, { isActive: true }).then(() => {
-                        document.getElementById('output').textContent = `Az ${emailParam} felhasználó isActive mezője true-ra módosítva.`;
+                        document.getElementById('output').textContent = `Az email cím hitelesítése sikeres volt. Mostmár bejelentkezhetsz az új profiloddal.`;
                     }).catch((error) => {
                         document.getElementById('output').textContent = `Hiba történt a frissítés során: ${error}`;
                     });
@@ -51,6 +70,6 @@
     </script>
 </head>
 <body>
-    <h1 id="output"></h1>
+    <div id="output"></div>
 </body>
 </html>
