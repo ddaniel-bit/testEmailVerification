@@ -72,7 +72,7 @@
                 document.getElementById('output').textContent = `Hiba történt a lekérés során: ${error}`;
             });
         } else {
-            document.getElementById('output').textContent = 'Nincs email cím megadva!';
+            document.getElementById('output').innerHTML = `<h1>Hibás link</h1>Kérlek ellenőrizd a link helyességét!`;
         }
     </script>
 </head>
