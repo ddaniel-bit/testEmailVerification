@@ -12,6 +12,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0; /* Világos háttér */
+            font-family: 'Arial', sans-serif; /* Modern betűtípus */
         }
 
         #output {
@@ -20,8 +21,14 @@
             padding: 20px;
             border-radius: 5px;
             text-align: center;
-            font-size: 18px;
+            font-size: 24px; /* Nagyobb szöveg */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Árnyék */
+        }
+
+        h1 {
+            margin: 0; /* Középre igazítás */
+            font-size: 1.5em; /* H1 méret */
+            line-height: 1.2; /* H1 vonalvezetés */
         }
     </style>
     <script type="module">
@@ -54,7 +61,7 @@
             get(userRef).then((snapshot) => {
                 if (snapshot.exists()) {
                     update(userRef, { isActive: true }).then(() => {
-                        document.getElementById('output').textContent = `Az email cím hitelesítése sikeres volt. Mostmár bejelentkezhetsz az új profiloddal.`;
+                        document.getElementById('output').innerHTML = `<h1>Az email cím hitelesítése sikeres volt!</h1>Mostmár bejelentkezhetsz az új profiloddal.`;
                     }).catch((error) => {
                         document.getElementById('output').textContent = `Hiba történt a frissítés során: ${error}`;
                     });
