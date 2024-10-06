@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query String Példa</title>
+</head>
+<body>
+    <h1 id="output"></h1>
+
+    <script>
+        // Query string lekérése
+        const params = new URLSearchParams(window.location.search);
+        
+        // A 'param' nevű érték lekérése
+        const queryParam = params.get('param');
+
+        // Kiírás az oldalra
+        if (queryParam) {
+            document.getElementById('output').textContent = queryParam;
+        } else {
+            document.getElementById('output').textContent = 'Nincs paraméter megadva!';
+        }
+    </script>
+</body>
+</html>
