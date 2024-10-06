@@ -3,23 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Query String Példa</title>
+    <title>Firebase Példa</title>
+    <!-- Firebase SDK hozzáadása -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
     <h1 id="output"></h1>
 
     <script>
+        // Firebase konfiguráció (a saját projektedből)
+        const firebaseConfig = {
+            apiKey: "API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "SENDER_ID",
+            appId: "APP_ID"
+        };
+
+        // Firebase inicializálása
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         // Query string lekérése
         const params = new URLSearchParams(window.location.search);
-        
-        // A 'param' nevű érték lekérése
-        const queryParam = params.get('param');
+        const emailParam = params.get('email');
 
-        // Kiírás az oldalra
-        if (queryParam) {
-            document.getElementById('output').textContent = queryParam;
+        if (emailParam) {
+            // Az email cím módosítása, hogy kompatibilis legyen a Firebase kulcsnévvel (pl. pont helyett _)
+            const emailKey = emailParam.replace(/\./g, "_");
+
+            // Firebase referencia az adott felhasználóhoz
+            const userRef = database.ref('users/' + emailKey);
+
+            // Ellenőrzés, hogy létezik-e a felhasználó
+            userRef.get().then((snapshot) => {
+                if (snapshot.exists()) {
+                    // isActive módosítása true-ra
+                    userRef.update({ isActive: true }).then(() => {
+                        document.getElementById('output').textContent = `Az ${emailParam} felhasználó isActive mezője true-ra módosítva.`;
+                    }).catch((error) => {
+                        document.getElementById('output').textContent = `Hiba történt a frissítés során: ${error}`;
+                    });
+                } else {
+                    document.getElementById('output').textContent = `A felhasználó nem található: ${emailParam}`;
+                }
+            }).catch((error) => {
+                document.getElementById('output').textContent = `Hiba történt a lekérés során: ${error}`;
+            });
         } else {
-            document.getElementById('output').textContent = 'Nincs paraméter megadva!';
+            document.getElementById('output').textContent = 'Nincs email cím megadva!';
         }
     </script>
 </body>
